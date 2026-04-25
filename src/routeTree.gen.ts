@@ -9,38 +9,148 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WriteRouteImport } from './routes/write'
+import { Route as TrendingRouteImport } from './routes/trending'
+import { Route as SubmitVideoRouteImport } from './routes/submit-video'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthorIdRouteImport } from './routes/author.$id'
+import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 
+const WriteRoute = WriteRouteImport.update({
+  id: '/write',
+  path: '/write',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrendingRoute = TrendingRouteImport.update({
+  id: '/trending',
+  path: '/trending',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubmitVideoRoute = SubmitVideoRouteImport.update({
+  id: '/submit-video',
+  path: '/submit-video',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthorIdRoute = AuthorIdRouteImport.update({
+  id: '/author/$id',
+  path: '/author/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticleSlugRoute = ArticleSlugRouteImport.update({
+  id: '/article/$slug',
+  path: '/article/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/submit-video': typeof SubmitVideoRoute
+  '/trending': typeof TrendingRoute
+  '/write': typeof WriteRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/author/$id': typeof AuthorIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/submit-video': typeof SubmitVideoRoute
+  '/trending': typeof TrendingRoute
+  '/write': typeof WriteRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/author/$id': typeof AuthorIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/submit-video': typeof SubmitVideoRoute
+  '/trending': typeof TrendingRoute
+  '/write': typeof WriteRoute
+  '/article/$slug': typeof ArticleSlugRoute
+  '/author/$id': typeof AuthorIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/submit-video'
+    | '/trending'
+    | '/write'
+    | '/article/$slug'
+    | '/author/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/submit-video'
+    | '/trending'
+    | '/write'
+    | '/article/$slug'
+    | '/author/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/submit-video'
+    | '/trending'
+    | '/write'
+    | '/article/$slug'
+    | '/author/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
+  SubmitVideoRoute: typeof SubmitVideoRoute
+  TrendingRoute: typeof TrendingRoute
+  WriteRoute: typeof WriteRoute
+  ArticleSlugRoute: typeof ArticleSlugRoute
+  AuthorIdRoute: typeof AuthorIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/write': {
+      id: '/write'
+      path: '/write'
+      fullPath: '/write'
+      preLoaderRoute: typeof WriteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trending': {
+      id: '/trending'
+      path: '/trending'
+      fullPath: '/trending'
+      preLoaderRoute: typeof TrendingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/submit-video': {
+      id: '/submit-video'
+      path: '/submit-video'
+      fullPath: '/submit-video'
+      preLoaderRoute: typeof SubmitVideoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +158,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/author/$id': {
+      id: '/author/$id'
+      path: '/author/$id'
+      fullPath: '/author/$id'
+      preLoaderRoute: typeof AuthorIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/article/$slug': {
+      id: '/article/$slug'
+      path: '/article/$slug'
+      fullPath: '/article/$slug'
+      preLoaderRoute: typeof ArticleSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
+  SubmitVideoRoute: SubmitVideoRoute,
+  TrendingRoute: TrendingRoute,
+  WriteRoute: WriteRoute,
+  ArticleSlugRoute: ArticleSlugRoute,
+  AuthorIdRoute: AuthorIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
