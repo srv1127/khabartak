@@ -33,7 +33,7 @@ export const Route = createFileRoute("/article/$slug")({
 function ArticlePage() {
   const { article, related } = Route.useLoaderData();
   const author = article.author;
-  const paragraphs = article.body.split(/\n\n+/).filter(Boolean);
+  const paragraphs: string[] = article.body.split(/\n\n+/).filter(Boolean);
   const cover = article.cover_image || "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=1200";
 
   return (
@@ -71,7 +71,7 @@ function ArticlePage() {
 
       <div className="mx-auto max-w-3xl px-4 py-8">
         <div className="prose prose-lg max-w-none space-y-5 text-lg leading-relaxed text-foreground">
-          {paragraphs.map((p, i) => (
+          {paragraphs.map((p: string, i: number) => (
             <p key={i} className={i === 0 ? "first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-black first-letter:text-brand" : ""}>
               {p}
             </p>
@@ -83,7 +83,7 @@ function ArticlePage() {
         <div className="mx-auto max-w-6xl px-4 pb-8">
           <h2 className="mb-6 border-b-2 border-ink pb-2 text-2xl font-black">और पढ़ें</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((a) => <ArticleCard key={a.id} article={a} />)}
+            {related.map((a: import("@/components/ArticleCard").ArticleRow) => <ArticleCard key={a.id} article={a} />)}
           </div>
         </div>
       )}
