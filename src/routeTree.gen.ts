@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WriteRouteImport } from './routes/write'
 import { Route as TrendingRouteImport } from './routes/trending'
-import { Route as SubmitVideoRouteImport } from './routes/submit-video'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthorIdRouteImport } from './routes/author.$id'
@@ -25,11 +24,6 @@ const WriteRoute = WriteRouteImport.update({
 const TrendingRoute = TrendingRouteImport.update({
   id: '/trending',
   path: '/trending',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SubmitVideoRoute = SubmitVideoRouteImport.update({
-  id: '/submit-video',
-  path: '/submit-video',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -56,7 +50,6 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/submit-video': typeof SubmitVideoRoute
   '/trending': typeof TrendingRoute
   '/write': typeof WriteRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -65,7 +58,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/submit-video': typeof SubmitVideoRoute
   '/trending': typeof TrendingRoute
   '/write': typeof WriteRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -75,7 +67,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/submit-video': typeof SubmitVideoRoute
   '/trending': typeof TrendingRoute
   '/write': typeof WriteRoute
   '/article/$slug': typeof ArticleSlugRoute
@@ -86,25 +77,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
-    | '/submit-video'
     | '/trending'
     | '/write'
     | '/article/$slug'
     | '/author/$id'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/login'
-    | '/submit-video'
-    | '/trending'
-    | '/write'
-    | '/article/$slug'
-    | '/author/$id'
+  to: '/' | '/login' | '/trending' | '/write' | '/article/$slug' | '/author/$id'
   id:
     | '__root__'
     | '/'
     | '/login'
-    | '/submit-video'
     | '/trending'
     | '/write'
     | '/article/$slug'
@@ -114,7 +96,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
-  SubmitVideoRoute: typeof SubmitVideoRoute
   TrendingRoute: typeof TrendingRoute
   WriteRoute: typeof WriteRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
@@ -135,13 +116,6 @@ declare module '@tanstack/react-router' {
       path: '/trending'
       fullPath: '/trending'
       preLoaderRoute: typeof TrendingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/submit-video': {
-      id: '/submit-video'
-      path: '/submit-video'
-      fullPath: '/submit-video'
-      preLoaderRoute: typeof SubmitVideoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -178,7 +152,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
-  SubmitVideoRoute: SubmitVideoRoute,
   TrendingRoute: TrendingRoute,
   WriteRoute: WriteRoute,
   ArticleSlugRoute: ArticleSlugRoute,
@@ -187,3 +160,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
