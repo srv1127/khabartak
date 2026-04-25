@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WriteRouteImport } from './routes/write'
 import { Route as TrendingRouteImport } from './routes/trending'
+import { Route as SignupWriterRouteImport } from './routes/signup-writer'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AuthorIdRouteImport } from './routes/author.$id'
 import { Route as ArticleSlugRouteImport } from './routes/article.$slug'
 
@@ -26,14 +29,29 @@ const TrendingRoute = TrendingRouteImport.update({
   path: '/trending',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignupWriterRoute = SignupWriterRouteImport.update({
+  id: '/signup-writer',
+  path: '/signup-writer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategorySlugRoute = CategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthorIdRoute = AuthorIdRouteImport.update({
@@ -49,57 +67,84 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/signup-writer': typeof SignupWriterRoute
   '/trending': typeof TrendingRoute
   '/write': typeof WriteRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$id': typeof AuthorIdRoute
+  '/category/$slug': typeof CategorySlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/signup-writer': typeof SignupWriterRoute
   '/trending': typeof TrendingRoute
   '/write': typeof WriteRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$id': typeof AuthorIdRoute
+  '/category/$slug': typeof CategorySlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/login': typeof LoginRoute
+  '/signup-writer': typeof SignupWriterRoute
   '/trending': typeof TrendingRoute
   '/write': typeof WriteRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/author/$id': typeof AuthorIdRoute
+  '/category/$slug': typeof CategorySlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/login'
+    | '/signup-writer'
     | '/trending'
     | '/write'
     | '/article/$slug'
     | '/author/$id'
+    | '/category/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/trending' | '/write' | '/article/$slug' | '/author/$id'
+  to:
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/signup-writer'
+    | '/trending'
+    | '/write'
+    | '/article/$slug'
+    | '/author/$id'
+    | '/category/$slug'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/login'
+    | '/signup-writer'
     | '/trending'
     | '/write'
     | '/article/$slug'
     | '/author/$id'
+    | '/category/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   LoginRoute: typeof LoginRoute
+  SignupWriterRoute: typeof SignupWriterRoute
   TrendingRoute: typeof TrendingRoute
   WriteRoute: typeof WriteRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   AuthorIdRoute: typeof AuthorIdRoute
+  CategorySlugRoute: typeof CategorySlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -118,6 +163,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrendingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/signup-writer': {
+      id: '/signup-writer'
+      path: '/signup-writer'
+      fullPath: '/signup-writer'
+      preLoaderRoute: typeof SignupWriterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -125,11 +177,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug': {
+      id: '/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/category/$slug'
+      preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/author/$id': {
@@ -151,11 +217,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   LoginRoute: LoginRoute,
+  SignupWriterRoute: SignupWriterRoute,
   TrendingRoute: TrendingRoute,
   WriteRoute: WriteRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   AuthorIdRoute: AuthorIdRoute,
+  CategorySlugRoute: CategorySlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
