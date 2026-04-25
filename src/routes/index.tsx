@@ -1,54 +1,104 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { ArticleCard } from "@/components/ArticleCard";
-import { articles } from "@/data/articles";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { ArticleCard, type ArticleRow } from "@/components/ArticleCard";
+import { fetchArticles } from "@/lib/articles";
+import { CATEGORIES } from "@/lib/categories";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const categories = ["सभी", "राजनीति", "खेल", "बिज़नेस", "मनोरंजन", "टेक्नोलॉजी", "शहर"];
-
 function Index() {
-  const [featured, ...rest] = articles;
+  const [articles, setArticles] = useState<ArticleRow[]>([]);
+  const [activeCat, setActiveCat] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchArticles({ category: activeCat ?? undefined, limit: 30 }).then((a) => {
+      setArticles(a);
+      setLoading(false);
+    });
+  }, [activeCat]);
+
+  const featured = articles[0];
+  const rest = articles.slice(1);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      {/* Breaking strip */}
       <div className="mb-8 flex items-center gap-3 overflow-hidden rounded-md border border-border bg-card px-4 py-2">
         <span className="shrink-0 bg-brand px-2 py-1 text-xs font-black uppercase tracking-wider text-brand-foreground">
           ब्रेकिंग
         </span>
         <p className="truncate text-sm font-medium">
-          संसद का शीतकालीन सत्र शुरू • दिल्ली में AQI 'गंभीर' श्रेणी में • भारत-ऑस्ट्रेलिया सीरीज़ जीती
+          हिंदी में हर खबर • मौसम, स्वास्थ्य, शिक्षा, AI ज्ञान और प्रेरक कहानियाँ — एक ही जगह
         </p>
       </div>
 
-      {/* Featured */}
-      <ArticleCard article={featured} featured />
-
-      {/* Categories */}
-      <div className="mt-12 mb-6 flex items-center justify-between border-b-2 border-ink pb-2">
-        <h2 className="text-2xl font-black text-ink">
-          ट्रेंडिंग <span className="text-brand">अभी</span>
-        </h2>
-      </div>
-
       <div className="mb-6 flex flex-wrap gap-2">
-        {categories.map((c) => (
+        <button
+          onClick={() => setActiveCat(null)}
+          className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors ${
+            activeCat === null ? "border-brand bg-brand text-brand-foreground" : "border-border bg-card hover:border-brand hover:text-brand"
+          }`}
+        >
+          सभी
+        </button>
+        {CATEGORIES.map((c) => (
           <button
-            key={c}
-            className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-semibold text-foreground transition-colors hover:border-brand hover:text-brand"
+            key={c.key}
+            onClick={() => setActiveCat(c.key)}
+            className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors ${
+              activeCat === c.key ? "border-brand bg-brand text-brand-foreground" : "border-border bg-card hover:border-brand hover:text-brand"
+            }`}
           >
-            {c}
+            {c.hindi}
           </button>
         ))}
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {rest.map((a) => (
-          <ArticleCard key={a.slug} article={a} />
+      {loading && <p className="py-12 text-center text-muted-foreground">लोड हो रहा है…</p>}
+
+      {!loading && articles.length === 0 && (
+        <div className="rounded-md border border-dashed border-border bg-card p-12 text-center">
+          <h2 className="text-xl font-bold text-ink">अभी कोई आर्टिकल नहीं</h2>
+          <p className="mt-2 text-muted-foreground">
+            हमारे लेखक जल्द ही नए आर्टिकल पोस्ट करेंगे।
+          </p>
+          <Link to="/signup-writer" className="mt-4 inline-block rounded-md bg-brand px-4 py-2 text-sm font-bold text-brand-foreground">
+            लेखक बनें
+          </Link>
+        </div>
+      )}
+
+      {featured && <ArticleCard article={featured} featured />}
+
+      {rest.length > 0 && (
+        <>
+          <div className="mt-12 mb-6 flex items-center justify-between border-b-2 border-ink pb-2">
+            <h2 className="text-2xl font-black text-ink">
+              और भी <span className="text-brand">पढ़ें</span>
+            </h2>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {rest.map((a) => <ArticleCard key={a.id} article={a} />)}
+          </div>
+        </>
+      )}
+
+      <section className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {CATEGORIES.slice(0, 4).map((c) => (
+          <Link
+            key={c.key}
+            to="/category/$slug"
+            params={{ slug: c.slug }}
+            className="rounded-md border border-border bg-card p-5 transition-colors hover:border-brand"
+          >
+            <h3 className="text-lg font-black text-ink">{c.hindi}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">{c.tagline}</p>
+          </Link>
         ))}
-      </div>
+      </section>
     </div>
   );
 }
