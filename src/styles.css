@@ -31,55 +31,63 @@
   --color-ink: var(--ink);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-paper: var(--paper);
+  --color-sepia: var(--sepia);
   --font-display: "Tiro Devanagari Hindi", "Noto Serif Devanagari", Georgia, serif;
+  --font-serif: "Playfair Display", "Tiro Devanagari Hindi", Georgia, serif;
   --font-sans: "Hind", "Noto Sans Devanagari", system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.25rem;
-  --background: oklch(0.99 0.002 60);
-  --foreground: oklch(0.18 0.01 60);
-  --ink: oklch(0.14 0.005 60);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.01 60);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.01 60);
-  --primary: oklch(0.18 0.01 60);
-  --primary-foreground: oklch(0.99 0.002 60);
-  --brand: oklch(0.55 0.22 27);
-  --brand-foreground: oklch(0.99 0.002 60);
-  --secondary: oklch(0.96 0.005 60);
-  --secondary-foreground: oklch(0.18 0.01 60);
-  --muted: oklch(0.96 0.005 60);
-  --muted-foreground: oklch(0.5 0.01 60);
-  --accent: oklch(0.95 0.02 27);
-  --accent-foreground: oklch(0.55 0.22 27);
-  --destructive: oklch(0.55 0.22 27);
-  --destructive-foreground: oklch(0.99 0.002 60);
-  --border: oklch(0.9 0.005 60);
-  --input: oklch(0.92 0.005 60);
-  --ring: oklch(0.55 0.22 27);
+  --radius: 0.125rem;
+  /* Aged newsprint palette */
+  --background: oklch(0.95 0.025 80);
+  --paper: oklch(0.93 0.035 78);
+  --sepia: oklch(0.78 0.06 65);
+  --foreground: oklch(0.18 0.015 60);
+  --ink: oklch(0.12 0.01 60);
+  --card: oklch(0.96 0.02 80);
+  --card-foreground: oklch(0.18 0.015 60);
+  --popover: oklch(0.96 0.02 80);
+  --popover-foreground: oklch(0.18 0.015 60);
+  --primary: oklch(0.14 0.01 60);
+  --primary-foreground: oklch(0.95 0.025 80);
+  --brand: oklch(0.42 0.18 30);
+  --brand-foreground: oklch(0.95 0.025 80);
+  --secondary: oklch(0.9 0.03 75);
+  --secondary-foreground: oklch(0.18 0.015 60);
+  --muted: oklch(0.9 0.025 75);
+  --muted-foreground: oklch(0.4 0.02 60);
+  --accent: oklch(0.88 0.05 60);
+  --accent-foreground: oklch(0.42 0.18 30);
+  --destructive: oklch(0.42 0.18 30);
+  --destructive-foreground: oklch(0.95 0.025 80);
+  --border: oklch(0.78 0.04 65);
+  --input: oklch(0.85 0.03 70);
+  --ring: oklch(0.42 0.18 30);
 }
 
 .dark {
   --background: oklch(0.14 0.005 60);
-  --foreground: oklch(0.98 0.002 60);
+  --paper: oklch(0.16 0.008 60);
+  --sepia: oklch(0.4 0.05 65);
+  --foreground: oklch(0.95 0.02 80);
   --card: oklch(0.18 0.008 60);
-  --card-foreground: oklch(0.98 0.002 60);
+  --card-foreground: oklch(0.95 0.02 80);
   --popover: oklch(0.18 0.008 60);
-  --popover-foreground: oklch(0.98 0.002 60);
-  --primary: oklch(0.98 0.002 60);
+  --popover-foreground: oklch(0.95 0.02 80);
+  --primary: oklch(0.95 0.02 80);
   --primary-foreground: oklch(0.14 0.005 60);
-  --brand: oklch(0.62 0.22 27);
+  --brand: oklch(0.6 0.2 30);
   --secondary: oklch(0.24 0.008 60);
-  --secondary-foreground: oklch(0.98 0.002 60);
+  --secondary-foreground: oklch(0.95 0.02 80);
   --muted: oklch(0.24 0.008 60);
-  --muted-foreground: oklch(0.7 0.01 60);
-  --accent: oklch(0.28 0.05 27);
-  --accent-foreground: oklch(0.85 0.15 27);
-  --border: oklch(1 0 0 / 12%);
+  --muted-foreground: oklch(0.7 0.02 70);
+  --accent: oklch(0.28 0.05 30);
+  --accent-foreground: oklch(0.85 0.15 30);
+  --border: oklch(1 0 0 / 14%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.62 0.22 27);
+  --ring: oklch(0.6 0.2 30);
 }
 
 @layer base {
@@ -92,11 +100,32 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 20% 10%, oklch(0.85 0.05 65 / 0.25) 0px, transparent 60%),
+      radial-gradient(circle at 80% 80%, oklch(0.82 0.06 60 / 0.2) 0px, transparent 55%);
   }
 
   h1, h2, h3, h4 {
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     font-weight: 700;
     letter-spacing: -0.01em;
   }
+}
+
+/* Vintage newspaper utilities */
+.font-serif-display {
+  font-family: var(--font-serif);
+}
+
+.masthead-title {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-shadow: 1px 1px 0 oklch(0.85 0.04 65 / 0.4);
+}
+
+.divider-double {
+  border-top: 3px double var(--color-ink);
+  border-bottom: 1px solid var(--color-ink);
+  padding-block: 0.4rem;
 }
