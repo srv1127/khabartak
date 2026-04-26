@@ -18,11 +18,11 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-sm bg-brand font-display text-lg font-black text-brand-foreground">
-            ख
+          <span className="flex h-8 w-8 items-center justify-center rounded-sm border-2 border-ink bg-paper font-serif-display text-lg font-black text-ink">
+            अ
           </span>
-          <span className="text-xl font-black tracking-tight text-ink">
-            खबर<span className="text-brand">तक</span>
+          <span className="masthead-title text-2xl text-ink">
+            अख़<span className="text-brand">बार</span>
           </span>
         </Link>
 
