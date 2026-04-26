@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { ArticleCard, type ArticleRow } from "@/components/ArticleCard";
 import { fetchArticles } from "@/lib/articles";
 import { CATEGORIES } from "@/lib/categories";
+import { Masthead } from "@/components/Masthead";
+import { TributeCard } from "@/components/TributeCard";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -25,13 +27,15 @@ function Index() {
   const rest = articles.slice(1);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
-      <div className="mb-8 flex items-center gap-3 overflow-hidden rounded-md border border-border bg-card px-4 py-2">
-        <span className="shrink-0 bg-brand px-2 py-1 text-xs font-black uppercase tracking-wider text-brand-foreground">
-          ब्रेकिंग
+    <>
+      <Masthead />
+      <div className="mx-auto max-w-6xl px-4 py-8">
+      <div className="mb-8 flex items-center gap-3 overflow-hidden rounded-sm border-2 border-double border-ink bg-paper px-4 py-2">
+        <span className="shrink-0 bg-ink px-2 py-1 font-serif-display text-xs font-black uppercase tracking-[0.2em] text-paper">
+          ताज़ा
         </span>
-        <p className="truncate text-sm font-medium">
-          हिंदी में हर खबर • मौसम, स्वास्थ्य, शिक्षा, AI ज्ञान और प्रेरक कहानियाँ — एक ही जगह
+        <p className="truncate font-serif-display text-sm italic text-ink">
+          आज का अख़बार • मौसम, स्वास्थ्य, शिक्षा, AI ज्ञान और प्रेरक कहानियाँ — एक ही जगह
         </p>
       </div>
 
