@@ -96,13 +96,18 @@ function Index() {
             key={c.key}
             to="/category/$slug"
             params={{ slug: c.slug }}
-            className="rounded-md border border-border bg-card p-5 transition-colors hover:border-brand"
+            className="rounded-sm border-2 border-double border-ink bg-paper p-5 transition-colors hover:bg-accent"
           >
-            <h3 className="text-lg font-black text-ink">{c.hindi}</h3>
+            <h3 className="font-serif-display text-lg font-black text-ink">{c.hindi}</h3>
             <p className="mt-1 text-sm text-muted-foreground">{c.tagline}</p>
           </Link>
         ))}
       </section>
-    </div>
+
+      <section className="mt-16">
+        <TributeCard />
+      </section>
+      </div>
+    </>
   );
 }
